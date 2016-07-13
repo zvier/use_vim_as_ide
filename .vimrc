@@ -158,7 +158,8 @@ set ruler
 
 " 开启行号显示
 set number
-
+" 开启相对行号
+set relativenumber
 " 高亮显示当前行/列
 set cursorline
 set cursorcolumn
