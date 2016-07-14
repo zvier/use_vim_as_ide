@@ -525,3 +525,6 @@ let g:wildfire_objects = ["i'", 'i"', "i)", "i]", "i}", "i>", "ip"]
 " 调用 gundo 树
 nnoremap <Leader>ud :GundoToggle<CR>
 
+" 光标移动，无行号时按虚拟行移动，有行号按物理行移动
+noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
+noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
