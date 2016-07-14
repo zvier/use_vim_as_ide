@@ -175,9 +175,10 @@ set hlsearch
 " 设置 gvim 显示字体
 set guifont=YaHei\ Consolas\ Hybrid\ 10.5
 
-" 禁止折行
-set nowrap
-
+" 开启折行
+set wrap
+" 每行最多80个字符宽度
+set textwidth=80
 " 设置状态栏主题风格
 let g:Powerline_colorscheme='solarized256'
 
