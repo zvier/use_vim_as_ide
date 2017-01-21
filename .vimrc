@@ -99,16 +99,65 @@ Plugin 'terryma/vim-multiple-cursors'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'vim-scripts/DrawIt'
 Plugin 'SirVer/ultisnips'
+Plugin 'honza/vim-snippets'
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'fatih/vim-go'
+
+"Vim plugin for pulling in C++ function prototypes into implementation files
 Plugin 'derekwyatt/vim-protodef'
+Plugin 'MarcWeber/vim-addon-mw-utils'
+
 Plugin 'scrooloose/nerdtree'
 Plugin 'fholgado/minibufexpl.vim'
 Plugin 'gcmt/wildfire.vim'
 Plugin 'sjl/gundo.vim'
 Plugin 'Lokaltog/vim-easymotion'
+Plugin 'mzlogin/vim-markdown-toc'
 Plugin 'suan/vim-instant-markdown'
+Plugin 'plasticboy/vim-markdown'
+Plugin 'garbas/vim-snipmate'
+Plugin 'godlygeek/tabular'
+Plugin 'dhruvasagar/vim-table-mode'
+Plugin 'mzlogin/vim-kramdown-tab'
 Plugin 'lilydjwg/fcitx.vim'
+Plugin 'tomtom/tcomment_vim' "执行代码注释操作插件
 
+
+Plugin 'othree/javascript-libraries-syntax.vim'
+Plugin 'cakebaker/scss-syntax.vim'
+Plugin 'othree/html5.vim'
+Plugin 'othree/yajs.vim'
+Plugin 'elzr/vim-json'
+Plugin 'sheerun/vim-polyglot'
+Plugin 'pangloss/vim-javascript'
+
+"语法检查
+Plugin 'scrooloose/syntastic'
+Plugin 'tpope/vim-surround'
+Plugin 'tpope/vim-repeat'
+Plugin 'gregsexton/MatchTag'
+Plugin 'mattn/emmet-vim'
+Plugin 'mbbill/echofunc'
+Plugin 'mbbill/code_complete'
+
+"www.vim.org插件添加
+Plugin 'DoxygenToolkit.vim'
+let g:DoxygenToolkit_briefTag_pre="@brief: " 
+let g:DoxygenToolkit_paramTag_pre="@param: " 
+let g:DoxygenToolkit_returnTag="@return:" 
+"let g:DoxygenToolkit_blockHeader="--------------------------------------------------------------------------" 
+"let g:DoxygenToolkit_blockFooter="----------------------------------------------------------------------------" 
+let g:DoxygenToolkit_classTag = "@class: "
+let g:DoxygenToolkit_versionTag = "@version: "
+let g:DoxygenToolkit_dateTag = "@date: "
+let g:DoxygenToolkit_fileTag = "@file: "
+let g:DoxygenToolkit_blockTag = "@name: "
+"let g:DoxygenToolkit_commentType = "C++"
+let g:DoxygenToolkit_authorName="liuzekun, 371524660@qq.com" 
+let g:doxygen_enhanced_color = 1
+let g:DoxygenToolkit_licenseTag="My own license"
+
+" C++根据类声明自动生成类实现的代码框架
 " 插件列表结束
 call vundle#end()
 filetype plugin indent on
@@ -173,9 +222,9 @@ set hlsearch
 " 其他美化
 
 " 设置 gvim 显示字体
-set guifont=YaHei\ Consolas\ Hybrid\ 10.5
+set guifont=YaHei\ Consolas\ Hybrid\ 11.5
 
-" 开启折行
+" 开启折行，一般禁止折行，因为这行不美观
 set wrap
 " 每行最多80个字符宽度
 set textwidth=80
@@ -393,10 +442,15 @@ nnoremap <Leader>rwc :call Replace(1, 1, input('Replace '.expand('<cword>').' wi
 
 " 模板补全
 " UltiSnips 的 tab 键与 YCM 冲突，重新设定
-let g:UltiSnipsSnippetDirectories=["mysnippets"]
-let g:UltiSnipsExpandTrigger="<leader><tab>"
-let g:UltiSnipsJumpForwardTrigger="<leader><tab>"
-let g:UltiSnipsJumpBackwardTrigger="<leader><s-tab>"
+let g:UltiSnipsSnippetDirectories=["UltiSnips"]
+let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsListSnippets = "<c-tab>"
+let g:UltiSnipsJumpForwardTrigger = "<tab>"
+let g:UltiSnipsJumpBackwardTrigger= "<s-tab>"
+
+" If you want :UltiSnipsEdit to split your window.
+let g:UltiSnipsEditSplit="vertical"
 
 " >>
 " YCM 补全
@@ -528,3 +582,26 @@ nnoremap <Leader>ud :GundoToggle<CR>
 " 光标移动，无行号时按虚拟行移动，有行号按物理行移动
 noremap <silent> <expr> j (v:count == 0 ? 'gj' : 'j')
 noremap <silent> <expr> k (v:count == 0 ? 'gk' : 'k')
+
+
+" make YCM compatible with UltiSnips (using supertab)
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" vim-go custom mappings
+"au FileType go nmap s (go-implements)
+"au FileType go nmap i (go-info)
+"au FileType go nmap gd (go-doc)
+"au FileType go nmap gv (go-doc-vertical)
+"au FileType go nmap r (go-run)
+"au FileType go nmap b (go-build)
+"au FileType go nmap t (go-test)
+"au FileType go nmap c (go-coverage)
+"au FileType go nmap ds (go-def-split)
+"au FileType go nmap dv (go-def-vertical)
+"au FileType go nmap dt (go-def-tab)
+"au FileType go nmap e (go-rename)
+
+" vim-go settings
+let g:go_fmt_command = "goimports"
