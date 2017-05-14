@@ -130,6 +130,7 @@ Plugin 'othree/yajs.vim'
 Plugin 'elzr/vim-json'
 Plugin 'sheerun/vim-polyglot'
 Plugin 'pangloss/vim-javascript'
+Plugin 'bronson/vim-trailing-whitespace'
 
 "语法检查
 Plugin 'scrooloose/syntastic'
