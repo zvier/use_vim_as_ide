@@ -95,6 +95,24 @@ Plugin 'vim-scripts/indexer.tar.gz'
 Plugin 'vim-scripts/DfrankUtil'
 Plugin 'vim-scripts/vimprj'
 Plugin 'dyng/ctrlsf.vim'
+" 成对标签补全
+Plugin 'docunext/closetag.vim'
+let g:closetag_html_style=1
+
+Plugin 'kien/ctrlp.vim'
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+map <leader>f :CtrlPMRU<CR>
+" 设置过滤不进行查找的后缀名
+let g:ctrlp_custom_ignore = '\v[\/]\.(git|hg|svn|pyc)$'
+
+" 模糊搜索当前文件中所有函数
+Plugin 'tacahiroy/ctrlp-funky'
+nnoremap <leader>fu :CtrlPFunky<CR>
+nnoremap <leader>FU :execute 'CtrlPFunky ' . expand('<cword>')<CR>
+let g:ctrlp_funky_syntax_highlight = 1
+let g:ctrlp_extensions = ['funky']
+
 Plugin 'terryma/vim-multiple-cursors'
 Plugin 'scrooloose/nerdcommenter'
 Plugin 'vim-scripts/DrawIt'
@@ -140,6 +158,7 @@ Plugin 'gregsexton/MatchTag'
 Plugin 'mattn/emmet-vim'
 Plugin 'mbbill/echofunc'
 Plugin 'mbbill/code_complete'
+Plugin 'rking/ag.vim'
 
 "www.vim.org插件添加
 Plugin 'DoxygenToolkit.vim'
