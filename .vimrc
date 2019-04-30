@@ -161,19 +161,20 @@ Plugin 'mbbill/code_complete'
 Plugin 'rking/ag.vim'
 
 "www.vim.org插件添加
+Plugin 'taglist.vim'
 Plugin 'DoxygenToolkit.vim'
-let g:DoxygenToolkit_briefTag_pre="@brief: " 
-let g:DoxygenToolkit_paramTag_pre="@param: " 
-let g:DoxygenToolkit_returnTag="@return:" 
-"let g:DoxygenToolkit_blockHeader="--------------------------------------------------------------------------" 
-"let g:DoxygenToolkit_blockFooter="----------------------------------------------------------------------------" 
+let g:DoxygenToolkit_briefTag_pre="@brief: "
+let g:DoxygenToolkit_paramTag_pre="@param: "
+let g:DoxygenToolkit_returnTag="@return:"
+"let g:DoxygenToolkit_blockHeader="--------------------------------------------------------------------------"
+"let g:DoxygenToolkit_blockFooter="----------------------------------------------------------------------------"
 let g:DoxygenToolkit_classTag = "@class: "
 let g:DoxygenToolkit_versionTag = "@version: "
 let g:DoxygenToolkit_dateTag = "@date: "
 let g:DoxygenToolkit_fileTag = "@file: "
 let g:DoxygenToolkit_blockTag = "@name: "
 "let g:DoxygenToolkit_commentType = "C++"
-let g:DoxygenToolkit_authorName="liuzekun, 371524660@qq.com" 
+let g:DoxygenToolkit_authorName="liuzekun, 371524660@qq.com"
 let g:doxygen_enhanced_color = 1
 let g:DoxygenToolkit_licenseTag="My own license"
 
