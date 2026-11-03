@@ -193,6 +193,25 @@ colorscheme solarized
 "colorscheme molokai
 "colorscheme phd
 
+" 补全弹窗配色 — autocmd ColorScheme 确保在 solarized 加载后覆盖
+function! s:SetPmenuColors()
+  highlight Pmenu       ctermbg=235 ctermfg=245
+  highlight PmenuSel    ctermbg=37  ctermfg=230
+  highlight PmenuSbar   ctermbg=234
+  highlight PmenuThumb  ctermbg=245
+  highlight NormalFloat ctermbg=235 ctermfg=245
+  highlight FloatBorder ctermbg=235 ctermfg=37
+  highlight CocFloating ctermbg=235 ctermfg=245
+  highlight CocMenuSel  ctermbg=37  ctermfg=230
+  highlight CocSearch   ctermfg=136
+endfunction
+augroup PmenuColors
+  autocmd!
+  autocmd ColorScheme * call s:SetPmenuColors()
+  autocmd VimEnter    * call timer_start(500, {-> s:SetPmenuColors()})
+augroup END
+call s:SetPmenuColors()
+
 " >>
 " 营造专注气氛
 
