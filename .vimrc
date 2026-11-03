@@ -120,6 +120,9 @@ Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'fatih/vim-go'
+Plugin 'davidhalter/jedi-vim'
+Plugin 'neoclide/coc.nvim', {'branch': 'release'}
+Plugin 'andymass/vim-matchup'
 
 "Vim plugin for pulling in C++ function prototypes into implementation files
 Plugin 'derekwyatt/vim-protodef'
@@ -344,6 +347,7 @@ let g:SignatureMap = {
 " 标签列表
 
 " 设置 tagbar 子窗口的位置出现在主编辑区的左边
+let g:tagbar_ctags_bin = '/opt/homebrew/bin/ctags'
 let tagbar_left=1
 " 设置显示／隐藏标签列表子窗口的快捷键。速记：identifier list by tag
 nnoremap <Leader>ilt :TagbarToggle<CR>
@@ -390,8 +394,17 @@ let g:tagbar_type_cpp = {
 " <<
 
 " >>
+" jedi-vim Python 跳转
+" 补全和跳转均由 coc.nvim 负责，jedi-vim 仅保留插件本身
+let g:jedi#completions_enabled = 0
+let g:jedi#goto_command = ""
+let g:jedi#documentation_command = ""
+
+" <<
+
+" >>
 " 代码导航
- 
+
 " 基于标签的代码导航
 
 " 设置插件 indexer 调用 ctags 的参数
@@ -462,52 +475,64 @@ nnoremap <Leader>rwc :call Replace(1, 1, input('Replace '.expand('<cword>').' wi
 " <<
 
 " 模板补全
-" UltiSnips 的 tab 键与 YCM 冲突，重新设定
+" UltiSnips 触发键改为 <C-e> 避免与 coc.nvim 的 Tab 补全冲突
 let g:UltiSnipsSnippetDirectories=["UltiSnips"]
 let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
-let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsExpandTrigger="<C-e>"
 let g:UltiSnipsListSnippets = "<c-tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger= "<s-tab>"
+let g:UltiSnipsJumpForwardTrigger = "<C-j>"
+let g:UltiSnipsJumpBackwardTrigger= "<C-k>"
 
 " If you want :UltiSnipsEdit to split your window.
 let g:UltiSnipsEditSplit="vertical"
 
 " >>
-" YCM 补全
+" coc.nvim 补全配置
 
-" YCM 补全菜单配色
-" 菜单
-highlight Pmenu ctermfg=2 ctermbg=3 guifg=#005f87 guibg=#EEE8D5
-" 选中项
-highlight PmenuSel ctermfg=2 ctermbg=3 guifg=#AFD700 guibg=#106900
+" coc.nvim 必要设置
+set hidden
+set updatetime=300
+set shortmess+=c
+set nobackup
+set nowritebackup
 
-" 补全功能在注释中同样有效
-let g:ycm_complete_in_comments=1
+" Tab 选择下一个补全项，无补全时正常缩进
+inoremap <silent><expr> <TAB>
+      \ coc#pum#visible() ? coc#pum#next(1) :
+      \ CheckBackspace() ? "\<Tab>" :
+      \ coc#refresh()
+inoremap <expr><S-TAB> coc#pum#visible() ? coc#pum#prev(1) : "\<C-h>"
 
-" 允许 vim 加载 .ycm_extra_conf.py 文件，不再提示
-let g:ycm_confirm_extra_conf=0
+" Enter 确认补全
+inoremap <silent><expr> <CR> coc#pum#visible() ? coc#pum#confirm()
+                              \: "\<C-g>u\<CR>\<c-r>=coc#on_enter()\<CR>"
 
-" 开启 YCM 标签补全引擎
-let g:ycm_collect_identifiers_from_tags_files=0
-"" 引入 C++ 标准库 tags
-"set tags+=/data/misc/software/app/vim/stdcpp.tags
-"set tags+=/data/misc/software/app/vim/sys.tags
+function! CheckBackspace() abort
+  let col = col('.') - 1
+  return !col || getline('.')[col - 1]  =~# '\s'
+endfunction
 
-" YCM 集成 OmniCppComplete 补全引擎，设置其快捷键
-inoremap <leader>; <C-x><C-o>
+" gd 跳转到定义：优先 coc，失败则 fallback 到 ctags
+nmap <silent> gd :call <SID>GoToDefinition()<CR>
+function! s:GoToDefinition()
+  try
+    call CocAction('jumpDefinition')
+  catch
+    execute "normal! \<C-]>"
+  endtry
+endfunction
+" 查看所有引用
+nmap <silent> gr <Plug>(coc-references)
+" K 查看文档/类型信息
+nnoremap <silent> K :call ShowDocumentation()<CR>
 
-" 补全内容不以分割子窗口形式出现，只显示补全列表
-set completeopt-=preview
-
-" 从第一个键入字符就开始罗列匹配项
-let g:ycm_min_num_of_chars_for_completion=1
-
-" 禁止缓存匹配项，每次都重新生成匹配项
-let g:ycm_cache_omnifunc=0
-
-" 语法关键字补全
-let g:ycm_seed_identifiers_with_syntax=1
+function! ShowDocumentation()
+  if CocAction('hasProvider', 'hover')
+    call CocActionAsync('doHover')
+  else
+    call feedkeys('K', 'in')
+  endif
+endfunction
 
 " <<
  
@@ -555,8 +580,18 @@ let NERDTreeAutoDeleteBuffer=1
 map <Leader>bl :MBEToggle<cr>
 
 " buffer 切换快捷键
-map <C-Tab> :MBEbn<cr>
-map <C-S-Tab> :MBEbp<cr>
+map <Leader>bn :MBEbn<cr>
+map <Leader>bp :MBEbp<cr>
+" 按编号直接跳转 buffer
+nmap <Leader>1 :b1<CR>
+nmap <Leader>2 :b2<CR>
+nmap <Leader>3 :b3<CR>
+nmap <Leader>4 :b4<CR>
+nmap <Leader>5 :b5<CR>
+nmap <Leader>6 :b6<CR>
+nmap <Leader>7 :b7<CR>
+nmap <Leader>8 :b8<CR>
+nmap <Leader>9 :b9<CR>
 
 " <<
 

@@ -1,0 +1,14 @@
+{
+  "python.defaultInterpreterPath": "/opt/homebrew/Caskroom/miniconda/base/bin/python3",
+  "pyright.enable": true,
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportOptionalMemberAccess": "none",
+    "reportMissingImports": "none",
+    "reportUnusedImport": "none"
+  },
+  "inlayHint.enable": false,
+  "python.analysis.inlayHints.variableTypes": false,
+  "python.analysis.inlayHints.functionReturnTypes": false,
+  "python.analysis.inlayHints.callArgumentNames": false,
+  "python.analysis.inlayHints.pytestParameters": false
+}
