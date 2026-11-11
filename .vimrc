@@ -120,6 +120,7 @@ Plugin 'SirVer/ultisnips'
 Plugin 'honza/vim-snippets'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'fatih/vim-go'
+Plugin 'rust-lang/rust.vim'
 Plugin 'davidhalter/jedi-vim'
 Plugin 'neoclide/coc.nvim', {'branch': 'release'}
 Plugin 'andymass/vim-matchup'

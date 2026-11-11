@@ -29,13 +29,16 @@ install_macos() {
     # Install Vundle plugin manager
     git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
+    # rust-analyzer: Rust LSP server for coc-rust-analyzer
+    brew install rust-analyzer
+
     # Copy coc-settings.json to ~/.vim/
     cp coc-settings.json ~/.vim/coc-settings.json
 
     # After copying .vimrc, open vim and run:
     #   :PluginInstall
-    # Then install coc-pyright (Python LSP) inside vim:
-    #   :CocInstall coc-pyright
+    # Then install coc extensions (Python + Rust LSP) inside vim:
+    #   :CocInstall coc-pyright coc-rust-analyzer
 }
 
 # ==============================================================================
